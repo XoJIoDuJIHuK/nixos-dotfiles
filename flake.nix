@@ -25,9 +25,21 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sysc-greet = {
+      url = "github:Nomadcxx/sysc-greet";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, caelestia-shell, ... }@inputs:
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    zen-browser,
+    caelestia-shell,
+    sysc-greet,
+    ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -49,6 +61,7 @@
             # Pass arguments to home.nix
             home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell; };
           }
+          sysc-greet.nixosModules.default
         ];
       };
     };

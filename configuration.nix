@@ -3,7 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    "${self}/configs/greetd.nix"
+    # "${self}/configs/greetd.nix"
+    "${self}/configs/sysc-greet.nix"
   ];
 
   # Bootloader (Assumes UEFI)

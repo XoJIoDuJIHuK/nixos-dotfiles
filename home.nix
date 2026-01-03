@@ -55,6 +55,7 @@
     pulseaudio
     grimblast # for screenshots
     dunst # notifications
+    numbat # tui calculator
     qbittorrent
     uv
     tmux
