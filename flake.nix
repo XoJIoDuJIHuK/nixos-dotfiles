@@ -30,6 +30,11 @@
       url = "github:Nomadcxx/sysc-greet";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -39,6 +44,7 @@
     zen-browser,
     caelestia-shell,
     sysc-greet,
+    nixvim,
     ... }@inputs:
     let
       system = "x86_64-linux";
@@ -59,7 +65,7 @@
             home-manager.users.${username} = import ./home.nix;
             
             # Pass arguments to home.nix
-            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell; };
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; };
           }
           sysc-greet.nixosModules.default
         ];

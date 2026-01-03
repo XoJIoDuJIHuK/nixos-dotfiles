@@ -1,8 +1,9 @@
-{ config, pkgs, username, inputs, self, caelestia-shell, ... }:
+{ config, pkgs, username, inputs, self, caelestia-shell, nixvim, ... }:
 
 {
   imports = [
     caelestia-shell.homeManagerModules.default
+    "${self}/configs/nvim"
   ];
 
   home.username = username;
