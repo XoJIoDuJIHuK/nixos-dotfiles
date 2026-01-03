@@ -314,6 +314,7 @@
   programs.caelestia = {
     enable = true;
     systemd.enable = true;
+    systemd.target = "default.target";
   };
 
   home.stateVersion = "25.05";
