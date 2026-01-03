@@ -1,6 +1,10 @@
-{ config, pkgs, username, inputs, self, ... }:
+{ config, pkgs, username, inputs, self, caelestia-shell, ... }:
 
 {
+  imports = [
+    caelestia-shell.homeManagerModules.default
+  ];
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
 
@@ -305,6 +309,12 @@
 
   # Enable Home Manager
   programs.home-manager.enable = true;
+
+  # Caelestia Shell (Quickshell sidebar)
+  programs.caelestia = {
+    enable = true;
+    systemd.enable = true;
+  };
 
   home.stateVersion = "25.05";
 }

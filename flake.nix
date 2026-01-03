@@ -20,9 +20,14 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, zen-browser, caelestia-shell, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -42,7 +47,7 @@
             home-manager.users.${username} = import ./home.nix;
             
             # Pass arguments to home.nix
-            home-manager.extraSpecialArgs = { inherit username inputs self; };
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell; };
           }
         ];
       };
