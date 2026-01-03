@@ -2,51 +2,56 @@
 
 add_newline = true
 
-# Line 1: Info. Line 2: Prompt
+# Simpler format: Directory > Git > Python > Node > Nix Shell > Prompt
 format = """
-$username\
 $directory\
 $git_branch\
 $python\
 $nodejs\
 $nix_shell\
-$line_break\
 $character"""
 
+# Disable the right side entirely
 right_format = ""
 
 [directory]
 style = "bold blue"
 format = "[$path]($style) "
-truncation_length = 4
+truncation_length = 3
+truncation_symbol = "…/"
 
 [git_branch]
 symbol = " "
-style = "purple"
-format = "on [$symbol$branch]($style) "
+style = "bright-black"
+# Only show the branch name and symbol, no status indicators
+format = "[$symbol$branch]($style) "
 
 [python]
-symbol = "py"
+symbol = "🐍 "
 style = "yellow"
-format = "via [${symbol}${version}]($style) "
+format = "via [$symbol($version )]($style)"
 
 [nodejs]
-symbol = "js"
+symbol = "⬢ "
 style = "green"
-format = "via [${symbol}${version}]($style) "
+format = "via [$symbol($version )]($style)"
 
+# Essential for NixOS users to know if they are in a specific shell
 [nix_shell]
-symbol = "nix"
-format = "via [$symbol]($style) "
+symbol = "❄️ "
+format = "via [$symbol$name]($style) "
+
+[character]
+# standard: ❯, root: #
+success_symbol = "[❯](bold purple)"
+error_symbol = "[❯](bold red)"
+# This covers your "sudo" request: The prompt turns red and becomes '#' if root
+vimcmd_symbol = "[❮](bold green)" 
 
 [username]
-# Shows "root" in red if sudo/root, otherwise hidden
+# Only shows if you are root or logged in via SSH
+style_user = "white"
 style_root = "red bold"
 format = "[$user]($style) "
 disabled = false
 show_always = false
-
-[character]
-# Simple arrow for input
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
