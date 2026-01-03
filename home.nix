@@ -20,7 +20,7 @@
     htop
     btop
     fastfetch
-    kitty # TODO: remove after migration to foot
+    kitty
     foot
     keepassxc
     syncthing
@@ -179,6 +179,7 @@
 
   xdg.configFile."starship.toml".source = "${self}/configs/starship.toml";
   xdg.configFile."foot/foot.ini".source = "${self}/configs/foot/foot.ini";
+  xdg.configFile."kitty/kitty.conf".source = "${self}/configs/kitty/kitty.conf";
 
   programs.zoxide = {
     enable = true;
@@ -208,49 +209,6 @@
 
   programs.kitty = {
     enable = true;
-
-    # Font configuration is cleaner when separated into the font attribute
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 16;
-    };
-
-    settings = {
-      # --- Existing Fix ---
-      linux_display_server = "x11";
-
-      # --- Text & Fonts ---
-      bold_font = "auto";
-      italic_font = "auto";
-      bold_italic_font = "auto";
-
-      # --- Window Geometry ---
-      remember_window_size = false;  # Converted 'no' to boolean
-      window_padding_width = 1;
-      hide_window_decorations = "yes";
-      confirm_os_window_close = 0;
-
-      # --- Appearance ---
-      background_opacity = "0.8";
-      dynamic_background_opacity = true;
-      selection_foreground = "none";
-      selection_background = "none";
-
-      # --- Behavior (Cursor, Scroll, Bell) ---
-      cursor_blink_interval = 0.5;
-      cursor_stop_blinking_after = 1;
-      scrollback_lines = 2000;
-      wheel_scroll_min_lines = 1;
-      enable_audio_bell = false;
-
-      # --- From your custom.conf ---
-      copy_on_select = "yes";
-    };
-
-    # Directives that don't fit into key=value pairs (like 'include') go here
-    extraConfig = ''
-      include ~/.cache/wal/colors-kitty.conf
-    '';
   };
 
   programs.zsh = {
@@ -296,6 +254,8 @@
       l = "ls -lah";
       v = "nvim";
       update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles";
+      lg = "lazygit";
+      ld = "lazydocker";
     };
 
     # Instead of 'source /path/to/plugin' in .zshrc, you define them here.
