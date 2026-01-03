@@ -66,10 +66,13 @@
   };
 
   # Set your time zone.
-  time.timeZone = "UTC"; # Change to your timezone (e.g., "America/New_York")
+  time.timeZone = "Europe/Minsk";
 
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_TIME = "en_GB.UTF-8";  # 24-hour time format
+  };
 
   # --- GNOME CONFIGURATION ---
   # services.xserver = {
