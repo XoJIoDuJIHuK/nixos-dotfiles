@@ -83,7 +83,7 @@
     settings = {
       default_session = {
         # The crucial part: pointing to the correct session directories for both Wayland (Hyprland) and X11 (Gnome)
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions:${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session --theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=white;container=black;input=red'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions:${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session --theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=white;container=black;input=red'";
         user = "greeter";
       };
     };

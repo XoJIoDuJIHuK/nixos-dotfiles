@@ -42,7 +42,7 @@
             home-manager.users.${username} = import ./home.nix;
             
             # Pass arguments to home.nix
-            home-manager.extraSpecialArgs = { inherit username inputs; };
+            home-manager.extraSpecialArgs = { inherit username inputs self; };
           }
         ];
       };

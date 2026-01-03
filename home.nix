@@ -1,4 +1,4 @@
-{ config, pkgs, username, inputs, ... }:
+{ config, pkgs, username, inputs, self, ... }:
 
 {
   home.username = username;
@@ -171,11 +171,10 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    settings = {
-      # Basic settings - will be overridden by ~/.config/starship.toml
-      format = "$all";
-    };
   };
+
+  xdg.configFile."starship.toml".source = "${self}/configs/starship.toml";
+  xdg.configFile."foot/foot.ini".source = "${self}/configs/foot/foot.ini";
 
   programs.zoxide = {
     enable = true;
