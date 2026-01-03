@@ -3,7 +3,7 @@
 {
   imports = [
     caelestia-shell.homeManagerModules.default
-    "${self}/configs/nvim"
+    nixvim.homeModules.nixvim
   ];
 
   home.username = username;
@@ -65,6 +65,7 @@
     lazysql
     telegram-desktop
     discord
+    vesktop # discord community wrapper for noise suppression support
     yazi
     claude-code
 
