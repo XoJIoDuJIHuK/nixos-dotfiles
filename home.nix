@@ -1,0 +1,311 @@
+{ config, pkgs, username, inputs, ... }:
+
+{
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
+
+  fonts.fontconfig.enable = true;
+
+  home.packages = with pkgs; [
+    firefox
+    brave
+    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
+
+    git
+    neovim
+    htop
+    btop
+    fastfetch
+    kitty # TODO: remove after migration to foot
+    foot
+    keepassxc
+    syncthing
+    gcc # for nvim
+
+    hyprland
+    hypridle
+    hyprlock
+    hyprpaper
+    hyprshade
+
+    rofi
+    waybar
+    wlogout
+    waypaper
+
+    sing-box
+    zsh
+    fzf # for nvim
+    ripgrep # for nvim
+    jq  # for nvim
+    eza  # modern ls replacement
+    zoxide  # smart cd
+    wlogout  # for logging out screen
+    killall  # for waybar
+    cliphist # speaks for itself
+    wl-clipboard
+    python3  # for waybar scripts
+    wget # for mason
+    brightnessctl
+    hyprpicker  # color picker
+    pulseaudio
+    grimblast # for screenshots
+    dunst # notifications
+    qbittorrent
+    uv
+    tmux
+    lazydocker
+    lazygit
+    lazysql
+    telegram-desktop
+    discord
+    yazi
+    claude-code
+
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    fira-sans
+    nerd-fonts.iosevka
+    nerd-fonts.hack
+    font-awesome
+
+    docker
+    docker-compose
+  ];
+
+  services.dunst.enable = true;
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 24;
+  };
+
+  programs.tmux = {
+    enable = true;
+    shell = "${pkgs.zsh}/bin/zsh"; # Optional: set your default shell
+    terminal = "tmux-256color";
+    historyLimit = 2000;
+    mouse = true;
+    keyMode = "vi";
+    baseIndex = 1;
+    escapeTime = 0;
+
+    # This replaces TPM. Nix will download and source these automatically.
+    plugins = with pkgs.tmuxPlugins; [
+      resurrect
+      continuum
+      {
+        plugin = tokyo-night-tmux;
+        extraConfig = ''
+          # Any specific variables for the theme go here
+          set -g @theme_variation 'moon'
+        '';
+      }
+    ];
+
+    extraConfig = ''
+      # --- General Settings ---
+      # Without this reloading config will not unbind old keys
+      unbind-key -a -T root
+      set -g pane-border-lines double
+      setw -g pane-base-index 1
+      set -g focus-events on
+
+      # Fix Colors
+      set -ag terminal-overrides ",xterm-256color:RGB,*256col*:RGB,alacritty:RGB,kitty:RGB"
+
+      # --- Keybindings ---
+      # Reload config (Note: Home Manager places the config at ~/.config/tmux/tmux.conf)
+      bind -n M-r source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
+      bind -n M-s choose-tree -s
+
+      # Window Navigation
+      bind -n M-1 select-window -t 1
+      bind -n M-2 select-window -t 2
+      bind -n M-3 select-window -t 3
+      bind -n M-4 select-window -t 4
+      bind -n M-5 select-window -t 5
+      bind -n M-6 select-window -t 6
+      bind -n M-7 select-window -t 7
+      bind -n M-8 select-window -t 8
+      bind -n M-9 select-window -t 9
+
+      # Pane Navigation
+      bind -n M-Left select-pane -L
+      bind -n M-Right select-pane -R
+      bind -n M-Up select-pane -U
+      bind -n M-Down select-pane -D
+
+      # Copy Mode / Scrolling
+      bind -n C-S-Up copy-mode \; send -X cursor-up
+      bind -n C-S-Down copy-mode \; send -X cursor-down
+      bind -n C-S-PgUp copy-mode -u
+      bind -n C-S-PgDn copy-mode \; send -X page-down
+      bind -n C-S-Home copy-mode \; send -X history-top
+      bind -n C-S-End copy-mode \; send -X history-bottom
+
+      # Splits and Windows
+      bind -n M-h split-window -v
+      bind -n M-v split-window -h
+      bind -n M-Enter new-window
+      bind -n M-c kill-pane
+      bind -n M-q kill-window
+      bind -n M-d detach
+      bind -n M-Q confirm-before -p "Kill entire session? (y/n)" kill-session
+
+      # Vi Copy Mode Logic
+      bind -T copy-mode-vi v send -X begin-selection
+      bind -T copy-mode-vi y send -X copy-pipe-and-cancel "wl-copy || xclip -in -selection clipboard"
+      bind -n M-/ copy-mode \; command-prompt -p "(search down)" "send -X search-forward '%%%'"
+      bind -n M-? copy-mode \; command-prompt -p "(search up)"   "send -X search-backward '%%%'"
+
+      # Plugin Settings
+      set -g @continuum-restore 'on'
+      set -g @continuum-save-interval '15'
+    '';
+  };
+
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      # Basic settings - will be overridden by ~/.config/starship.toml
+      format = "$all";
+    };
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true; # Replaces: source <(fzf --zsh)
+  };
+
+  # 4. Configure Direnv (cleaner than the OMZ plugin)
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  # Optional: Configure Git
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name = "Aleh Tachyla";
+      email = "tochilo.oleg@yandex.by";
+    };
+  };
+
+  programs.kitty = {
+    enable = true;
+
+    # Font configuration is cleaner when separated into the font attribute
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 16;
+    };
+
+    settings = {
+      # --- Existing Fix ---
+      linux_display_server = "x11";
+
+      # --- Text & Fonts ---
+      bold_font = "auto";
+      italic_font = "auto";
+      bold_italic_font = "auto";
+
+      # --- Window Geometry ---
+      remember_window_size = false;  # Converted 'no' to boolean
+      window_padding_width = 1;
+      hide_window_decorations = "yes";
+      confirm_os_window_close = 0;
+
+      # --- Appearance ---
+      background_opacity = "0.8";
+      dynamic_background_opacity = true;
+      selection_foreground = "none";
+      selection_background = "none";
+
+      # --- Behavior (Cursor, Scroll, Bell) ---
+      cursor_blink_interval = 0.5;
+      cursor_stop_blinking_after = 1;
+      scrollback_lines = 2000;
+      wheel_scroll_min_lines = 1;
+      enable_audio_bell = false;
+
+      # --- From your custom.conf ---
+      copy_on_select = "yes";
+    };
+
+    # Directives that don't fit into key=value pairs (like 'include') go here
+    extraConfig = ''
+      include ~/.cache/wal/colors-kitty.conf
+    '';
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true; # Auto-compiles completion dumps (performance boost)
+
+    history = {
+      size = 10000;
+      save = 10000;
+      path = "${config.home.homeDirectory}/.zsh_history";
+      append = true;      # setopt appendhistory
+      share = false;      # Equivalent to disabling share_history if you want strictly "append" behavior
+    };
+
+    oh-my-zsh = {
+      enable = true;
+      # We do NOT set a theme here because Oh-My-Posh handles it.
+
+      plugins = [
+        "colorize"
+        "copybuffer"
+        "copyfile"
+        "dotenv"
+        "dirhistory"
+        "docker"
+        "docker-compose"
+        "git"
+        "pip"
+        "ssh"
+        "ssh-agent"
+        "sudo"
+        "ufw"
+        "vi-mode"
+      ];
+    };
+
+    # 1. High-level options for the most common plugins
+    # Home Manager handles the installation and sourcing automatically.
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    shellAliases = {
+      l = "ls -lah";
+      v = "nvim";
+      update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles";
+    };
+
+    # Instead of 'source /path/to/plugin' in .zshrc, you define them here.
+    plugins = [
+    ];
+
+    initContent = ''
+      export EDITOR=nvim
+    '';
+  };
+
+  # Enable Home Manager
+  programs.home-manager.enable = true;
+
+  home.stateVersion = "25.05";
+}
