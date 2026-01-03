@@ -1,7 +1,10 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, self, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    "${self}/configs/greetd.nix"
+  ];
 
   # Bootloader (Assumes UEFI)
   boot = {
@@ -78,16 +81,7 @@
   #   xkb.layout = "us";
   # };
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        # The crucial part: pointing to the correct session directories for both Wayland (Hyprland) and X11 (Gnome)
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions:${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session --theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=white;container=black;input=red'";
-        user = "greeter";
-      };
-    };
-  };
+  # greetd configuration moved to ./configs/greetd.nix
 
   # Debloat GNOME (Remove default games, tour, help, etc.)
   environment.gnome.excludePackages = (with pkgs; [

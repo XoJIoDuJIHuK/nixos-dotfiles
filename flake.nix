@@ -37,7 +37,7 @@
     {
       nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };  # for zen-browser
+        specialArgs = { inherit inputs self; };  # for zen-browser and self reference
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
