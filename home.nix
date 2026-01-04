@@ -51,6 +51,7 @@
     wl-clipboard
     python3  # for waybar scripts
     wget # for mason
+    unzip
     brightnessctl
     hyprpicker  # color picker
     pulseaudio
