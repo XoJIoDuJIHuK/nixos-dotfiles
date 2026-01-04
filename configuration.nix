@@ -77,39 +77,6 @@
     };
   };
 
-  # --- GNOME CONFIGURATION ---
-  # services.xserver = {
-  #   enable = true;
-  #   displayManager.gdm.enable = true;
-  #   desktopManager.gnome.enable = true;
-  #
-  #   # Configure keymap in X11
-  #   xkb.layout = "us";
-  # };
-
-  # greetd configuration moved to ./configs/greetd.nix
-
-  # Debloat GNOME (Remove default games, tour, help, etc.)
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit # We will use a better text editor if needed
-    cheese  # webcam tool
-    gnome-music
-    gnome-terminal # We will use a shell via Home Manager
-    epiphany # web browser
-    geary # email reader
-    evince # document viewer
-    gnome-characters
-    totem # video player
-    tali # game
-    iagno # game
-    hitori # game
-    atomix # game
-  ]) ++ (with pkgs.gnome; [
-
-  ]);
-
   environment.systemPackages = with pkgs; [
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
