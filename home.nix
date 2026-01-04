@@ -105,7 +105,6 @@ in {
     "hypr".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/hypr";
     "nvim".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/nvim";
     "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
-    "tmux".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/tmux";
     "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
     "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
   };
@@ -151,7 +150,6 @@ in {
 
     oh-my-zsh = {
       enable = true;
-      # We do NOT set a theme here because Oh-My-Posh handles it.
 
       plugins = [
         "colorize"
@@ -193,10 +191,42 @@ in {
     '';
   };
 
-  # Enable Home Manager
+  programs.tmux = {
+    enable = true;
+    # Using 'pkgs.tmuxPlugins' allows Nix to handle versioning and installation
+    plugins = with pkgs.tmuxPlugins; [
+      resurrect
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-save-interval '15'
+          set -g @continuum_save_dir '~/.tmux/resurrect' # This is usually handled by resurrect
+        '';
+      }
+      {
+        plugin = tokyo-night-tmux;
+        extraConfig = ''
+          set -g @theme_variation 'moon'
+        '';
+      }
+    ];
+
+    # This reads your local file and appends it to the generated config
+    extraConfig = builtins.readFile ./configs/tmux.conf;
+    extraConfigAfter = ''
+      # Ensure the save directory for tmux-resurrect exists and is writable
+      run-shell 'mkdir -p ~/.tmux/resurrect && chmod 700 ~/.tmux/resurrect'
+      set -g @resurrect-dir '~/.tmux/resurrect'
+
+      # You might also need this for tmux-continuum to ensure it uses the same dir
+      # though usually it defaults to resurrect's dir.
+      # set -g @continuum-save-dir '~/.tmux/resurrect'
+    '';
+  };
+
   programs.home-manager.enable = true;
 
-  # Caelestia Shell (Quickshell sidebar)
   programs.caelestia = {
     enable = true;
     systemd.enable = true;
