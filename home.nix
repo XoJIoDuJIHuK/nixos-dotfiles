@@ -181,9 +181,17 @@
     enableZshIntegration = true;
   };
 
-  xdg.configFile."starship.toml".source = "${self}/configs/starship.toml";
-  xdg.configFile."foot/foot.ini".source = "${self}/configs/foot/foot.ini";
-  xdg.configFile."kitty/kitty.conf".source = "${self}/configs/kitty/kitty.conf";
+  home.file.".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/starship.toml";
+  home.file.".config/foot".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/foot";
+  home.file.".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/kitty";
+  home.file.".config/btop".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/btop";
+  home.file.".config/dunst".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/dunst";
+  home.file.".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/hypr";
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/nvim";
+  home.file.".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/rofi";
+  home.file.".config/tmux".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/tmux";
+  home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/waybar";
+  home.file.".config/waypaper".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/waypaper";
 
   programs.zoxide = {
     enable = true;
