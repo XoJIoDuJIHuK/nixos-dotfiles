@@ -1,9 +1,9 @@
-{ config, pkgs, username, inputs, self, caelestia-shell, nixvim, ... }:
-
-{
+{ config, pkgs, username, inputs, self, caelestia-shell, ... }:
+let
+  dotfilesDir = "/home/${username}/.dotfiles";
+in {
   imports = [
     caelestia-shell.homeManagerModules.default
-    nixvim.homeModules.nixvim
   ];
 
   home.username = username;
@@ -90,90 +90,6 @@
     size = 24;
   };
 
-  programs.tmux = {
-    enable = true;
-    shell = "${pkgs.zsh}/bin/zsh"; # Optional: set your default shell
-    terminal = "tmux-256color";
-    historyLimit = 2000;
-    mouse = true;
-    keyMode = "vi";
-    baseIndex = 1;
-    escapeTime = 0;
-
-    # This replaces TPM. Nix will download and source these automatically.
-    plugins = with pkgs.tmuxPlugins; [
-      resurrect
-      continuum
-      {
-        plugin = tokyo-night-tmux;
-        extraConfig = ''
-          # Any specific variables for the theme go here
-          set -g @theme_variation 'moon'
-        '';
-      }
-    ];
-
-    extraConfig = ''
-      # --- General Settings ---
-      # Without this reloading config will not unbind old keys
-      unbind-key -a -T root
-      set -g pane-border-lines double
-      setw -g pane-base-index 1
-      set -g focus-events on
-
-      # Fix Colors
-      set -ag terminal-overrides ",xterm-256color:RGB,*256col*:RGB,alacritty:RGB,kitty:RGB"
-
-      # --- Keybindings ---
-      # Reload config (Note: Home Manager places the config at ~/.config/tmux/tmux.conf)
-      bind -n M-r source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
-      bind -n M-s choose-tree -s
-
-      # Window Navigation
-      bind -n M-1 select-window -t 1
-      bind -n M-2 select-window -t 2
-      bind -n M-3 select-window -t 3
-      bind -n M-4 select-window -t 4
-      bind -n M-5 select-window -t 5
-      bind -n M-6 select-window -t 6
-      bind -n M-7 select-window -t 7
-      bind -n M-8 select-window -t 8
-      bind -n M-9 select-window -t 9
-
-      # Pane Navigation
-      bind -n M-Left select-pane -L
-      bind -n M-Right select-pane -R
-      bind -n M-Up select-pane -U
-      bind -n M-Down select-pane -D
-
-      # Copy Mode / Scrolling
-      bind -n C-S-Up copy-mode \; send -X cursor-up
-      bind -n C-S-Down copy-mode \; send -X cursor-down
-      bind -n C-S-PgUp copy-mode -u
-      bind -n C-S-PgDn copy-mode \; send -X page-down
-      bind -n C-S-Home copy-mode \; send -X history-top
-      bind -n C-S-End copy-mode \; send -X history-bottom
-
-      # Splits and Windows
-      bind -n M-h split-window -v
-      bind -n M-v split-window -h
-      bind -n M-Enter new-window
-      bind -n M-c kill-pane
-      bind -n M-q kill-window
-      bind -n M-d detach
-      bind -n M-Q confirm-before -p "Kill entire session? (y/n)" kill-session
-
-      # Vi Copy Mode Logic
-      bind -T copy-mode-vi v send -X begin-selection
-      bind -T copy-mode-vi y send -X copy-pipe-and-cancel "wl-copy || xclip -in -selection clipboard"
-      bind -n M-/ copy-mode \; command-prompt -p "(search down)" "send -X search-forward '%%%'"
-      bind -n M-? copy-mode \; command-prompt -p "(search up)"   "send -X search-backward '%%%'"
-
-      # Plugin Settings
-      set -g @continuum-restore 'on'
-      set -g @continuum-save-interval '15'
-    '';
-  };
 
 
   programs.starship = {
@@ -181,17 +97,18 @@
     enableZshIntegration = true;
   };
 
-  home.file.".config/starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/starship.toml";
-  home.file.".config/foot".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/foot";
-  home.file.".config/kitty".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/kitty";
-  home.file.".config/btop".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/btop";
-  home.file.".config/dunst".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/dunst";
-  home.file.".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/hypr";
-  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/nvim";
-  home.file.".config/rofi".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/rofi";
-  home.file.".config/tmux".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/tmux";
-  home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/waybar";
-  home.file.".config/waypaper".source = config.lib.file.mkOutOfStoreSymlink "${self}/configs/waypaper";
+  xdg.configFile = {
+    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
+    "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
+    "kitty".source         = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/kitty";
+    "btop".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/btop";
+    "hypr".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/hypr";
+    "nvim".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/nvim";
+    "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
+    "tmux".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/tmux";
+    "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
+    "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
+  };
 
   programs.zoxide = {
     enable = true;
@@ -219,9 +136,6 @@
     };
   };
 
-  programs.kitty = {
-    enable = true;
-  };
 
   programs.zsh = {
     enable = true;
