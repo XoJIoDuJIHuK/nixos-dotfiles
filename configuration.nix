@@ -69,9 +69,12 @@
   time.timeZone = "Europe/Minsk";
 
   # Locale
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_TIME = "en_GB.UTF-8";  # 24-hour time format
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_TIME = "en_GB.UTF-8";  # 24-hour time format
+      LC_MEASUREMENT = "en_GB.UTF-8";  # Celsius
+    };
   };
 
   # --- GNOME CONFIGURATION ---
