@@ -195,13 +195,29 @@ in {
     enable = true;
     # Using 'pkgs.tmuxPlugins' allows Nix to handle versioning and installation
     plugins = with pkgs.tmuxPlugins; [
-      resurrect
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          # Resurrect Settings
+          set -g @resurrect-strategy-vim 'session'
+          set -g @resurrect-strategy-nvim 'session'
+          set -g @resurrect-capture-pane-contents 'on'
+
+          # Explicitly define the save directory
+          set -g @resurrect-dir '~/.tmux/resurrect'
+
+          # Hook to ensure the directory exists when tmux starts
+          # This fixes the issue where saving fails on a fresh install
+          run-shell 'mkdir -p ~/.tmux/resurrect'
+        '';
+      }
       {
         plugin = continuum;
         extraConfig = ''
           set -g @continuum-restore 'on'
           set -g @continuum-save-interval '15'
           set -g @continuum_save_dir '~/.tmux/resurrect' # This is usually handled by resurrect
+          run-shell 'mkdir -p ~/.tmux/resurrect'
         '';
       }
       {
@@ -214,15 +230,6 @@ in {
 
     # This reads your local file and appends it to the generated config
     extraConfig = builtins.readFile ./configs/tmux.conf;
-    extraConfigAfter = ''
-      # Ensure the save directory for tmux-resurrect exists and is writable
-      run-shell 'mkdir -p ~/.tmux/resurrect && chmod 700 ~/.tmux/resurrect'
-      set -g @resurrect-dir '~/.tmux/resurrect'
-
-      # You might also need this for tmux-continuum to ensure it uses the same dir
-      # though usually it defaults to resurrect's dir.
-      # set -g @continuum-save-dir '~/.tmux/resurrect'
-    '';
   };
 
   programs.home-manager.enable = true;
