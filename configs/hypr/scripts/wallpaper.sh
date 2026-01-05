@@ -91,7 +91,7 @@ if [ -f $wallpapereffect ]; then
             echo ":: Use cached wallpaper $effect-$wallpaperfilename"
         else
             echo ":: Generate new cached wallpaper $effect-$wallpaperfilename with effect $effect"
-            notify-send --replace-id=1 "Using wallpaper effect $effect..." "with image $wallpaperfilename" -h int:value:33
+            ~/.config/hypr/scripts/notify.sh info "Wallpaper" "Using wallpaper effect $effect with image $wallpaperfilename"
             source $HOME/.config/hypr/effects/wallpaper/$effect
         fi
         echo ":: Loading wallpaper $generatedversions/$effect-$wallpaperfilename with effect $effect"

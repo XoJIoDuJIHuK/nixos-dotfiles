@@ -28,7 +28,7 @@ in
         # --issue points to our logo file
         # --time displays the clock
         # --theme sets the colors
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --issue /etc/greetd/logo.txt --cmd Hyprland --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions:${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session --container-padding 2 --window-padding 2 --greet-align center --theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=white;container=black;input=red'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --issue /etc/greetd/logo.txt --cmd start-hyprland --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions:${config.services.displayManager.sessionData.desktops}/share/xsessions --remember --remember-user-session --container-padding 2 --window-padding 2 --greet-align center --theme 'border=magenta;text=cyan;prompt=green;time=red;action=blue;button=white;container=black;input=red'";
         user = "greeter";
       };
     };

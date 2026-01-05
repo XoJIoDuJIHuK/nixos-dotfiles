@@ -77,12 +77,17 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
 
-  # Enable Sound (Pipewire)
+    sessionVariables = {
+      UV_PYTHON_PREFERENCE = "only-managed";
+    };
+  };
+# Enable Sound (Pipewire)
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -114,8 +119,9 @@
   # fix for binary programs not being able to see nixos libraries
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc.lib
+    stdenv.cc.cc.lib # needed for factorio
     libGL
+    zlib
     glib
     xorg.libX11
     xorg.libXcursor

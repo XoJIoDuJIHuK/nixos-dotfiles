@@ -56,7 +56,7 @@ in {
     hyprpicker  # color picker
     pulseaudio
     grimblast # for screenshots
-    dunst # notifications
+    # dunst # notifications - replaced by caelestia-shell
     numbat # tui calculator
     qbittorrent
     uv
@@ -69,6 +69,8 @@ in {
     vesktop # discord community wrapper for noise suppression support
     yazi
     claude-code
+    wpsoffice
+    thunderbird
 
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
@@ -76,12 +78,13 @@ in {
     nerd-fonts.iosevka
     nerd-fonts.hack
     font-awesome
+    corefonts # fonts for wpsoffice
 
     docker
     docker-compose
   ];
 
-  services.dunst.enable = true;
+  # services.dunst.enable = true; # replaced by caelestia-shell
 
   home.pointerCursor = {
     gtk.enable = true;

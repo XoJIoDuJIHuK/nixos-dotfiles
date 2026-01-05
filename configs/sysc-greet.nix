@@ -6,7 +6,7 @@
 
   # Optional: Set initial session for auto-login
   services.sysc-greet.settings.initial_session = {
-    command = "Hyprland";
+    command = "start-hyprland";
     user = "aleh";
   };
 }

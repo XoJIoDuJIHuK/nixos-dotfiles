@@ -166,13 +166,13 @@ copy_save_editor_run() {
 
 timer() {
     if [[ $countdown -gt 10 ]]; then
-        notify-send -t 1000 "Taking screenshot in ${countdown} seconds"
+        ~/.config/hypr/scripts/notify.sh info "Screenshot" "Taking screenshot in ${countdown} seconds"
         countdown_less_10=$((countdown - 10))
         sleep $countdown_less_10
         countdown=10
     fi
     while [[ $countdown -ne 0 ]]; do
-        notify-send -t 1000 "Taking screenshot in ${countdown} seconds"
+        ~/.config/hypr/scripts/notify.sh info "Screenshot" "Taking screenshot in ${countdown} seconds"
         countdown=$((countdown - 1))
         sleep 1
     done

@@ -10,7 +10,7 @@
 if [ -f ~/.cache/gamemode ] ;then
     hyprctl reload
     rm ~/.cache/gamemode
-    notify-send "Gamemode deactivated" "Animations and blur enabled"
+    ~/.config/hypr/scripts/notify.sh success "Gamemode" "Deactivated - Animations and blur enabled"
 else
     hyprctl --batch "\
         keyword animations:enabled 0;\
@@ -21,5 +21,5 @@ else
         keyword general:border_size 1;\
         keyword decoration:rounding 0"
 	touch ~/.cache/gamemode
-    notify-send "Gamemode activated" "Animations and blur disabled"
+    ~/.config/hypr/scripts/notify.sh warn "Gamemode" "Activated - Animations and blur disabled"
 fi
