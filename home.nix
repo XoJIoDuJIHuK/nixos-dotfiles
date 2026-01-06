@@ -260,6 +260,13 @@ in {
 
   programs.tmux = {
     enable = true;
+
+    keyMode = "vi";
+    mouse = true;
+    escapeTime = 0;
+    baseIndex = 1;
+    historyLimit = 2000;
+
     # Using 'pkgs.tmuxPlugins' allows Nix to handle versioning and installation
     plugins = with pkgs.tmuxPlugins; [
       {
