@@ -57,13 +57,13 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-          {
+          ({ config, ... }: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home.nix;
 
-            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; };
-          }
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; hostname = config.networking.hostName; };
+          })
           sysc-greet.nixosModules.default
         ];
       };
@@ -74,13 +74,13 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-          {
+          ({ config, ... }: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home.nix;
 
-            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; };
-          }
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; hostname = config.networking.hostName; };
+          })
           sysc-greet.nixosModules.default
         ];
       };

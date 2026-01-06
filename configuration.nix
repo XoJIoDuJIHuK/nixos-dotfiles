@@ -23,7 +23,7 @@
 
   # Networking
   networking = {
-    hostName = "nixos"; # Must match flake.nix
+    hostName = hostname;
     networkmanager = {
       enable = true;
       wifi.powersave = false;

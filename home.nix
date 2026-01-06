@@ -1,4 +1,4 @@
-{ config, pkgs, username, inputs, self, caelestia-shell, ... }:
+{ config, pkgs, username, hostname, inputs, self, caelestia-shell, ... }:
 let
   dotfilesDir = "/home/${username}/.dotfiles";
 in {
@@ -244,7 +244,7 @@ in {
     shellAliases = {
       l = "eza -l -h";
       v = "nvim";
-      update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles";
+      update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles#${hostname}";
       lg = "lazygit";
       ld = "lazydocker";
     };
