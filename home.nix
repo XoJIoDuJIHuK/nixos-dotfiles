@@ -100,6 +100,7 @@ in {
     enableZshIntegration = true;
   };
 
+  # creates cascade of symlinks. to check if everything works fine, use `realpath` on a symlink
   xdg.configFile = {
     "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
     "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
