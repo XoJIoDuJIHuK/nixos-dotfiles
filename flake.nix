@@ -48,14 +48,12 @@
     ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
       username = "aleh";
-      hostname = "nixos";
     in
     {
-      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs self; };  # for zen-browser and self reference
+        specialArgs = { inherit inputs self; enableNvidia = true; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -63,8 +61,24 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home.nix;
-            
-            # Pass arguments to home.nix
+
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; };
+          }
+          sysc-greet.nixosModules.default
+        ];
+      };
+
+      nixosConfigurations.nixos-intel = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs self; enableNvidia = false; };
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${username} = import ./home.nix;
+
             home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; };
           }
           sysc-greet.nixosModules.default
