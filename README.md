@@ -15,3 +15,9 @@ sudo nixos-rebuild switch --flake .dotfiles#nixos-intel # for intel integrated c
 
 
 Probably reboot. This should suffice
+
+## TODO
+
+1. Implement proper MAIN SHIFT Q screen (currently no styling)
+2. Add more info to Quickshell dashboards (for instance, specific numbers of resources consumption)
+3. Create sing-box wrapper (service or app) to appear in caelestia bar(s)
