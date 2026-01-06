@@ -56,6 +56,7 @@ in {
     hyprpicker  # color picker
     pulseaudio
     grimblast # for screenshots
+    pinta # for screenshot editing
     # dunst # notifications - replaced by caelestia-shell
     numbat # tui calculator
     qbittorrent
@@ -79,6 +80,8 @@ in {
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.uk_UA
+
+    onlyoffice-desktopeditors
 
     # fonts
     nerd-fonts.jetbrains-mono

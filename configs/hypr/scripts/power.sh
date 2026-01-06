@@ -7,7 +7,7 @@
 #                              
 
 # Check if eww is open
-FILE="$HOME/.cache/ml4w_sidebar"
+FILE="$HOME/.cache/hypr_sidebar"
 
 if [[ "$1" == "exit" ]]; then
     echo ":: Exit"
