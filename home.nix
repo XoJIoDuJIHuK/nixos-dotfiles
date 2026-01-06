@@ -310,6 +310,7 @@ in {
 
   programs.caelestia = {
     enable = true;
+    cli.enable = true;
     systemd.enable = true;
     systemd.target = "default.target";
   };
