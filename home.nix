@@ -71,6 +71,7 @@ in {
     claude-code
     wpsoffice
     thunderbird
+    pdftk
 
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
