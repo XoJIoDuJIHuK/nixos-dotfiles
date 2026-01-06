@@ -156,8 +156,8 @@ in {
       package = pkgs.tokyonight-gtk-theme;
     };
     iconTheme = {
-      name = "Tokyonight-Dark"; # Or any compatible icon theme
-        package = pkgs.tokyonight-gtk-theme; # Often includes icons, or check pkgs
+      name = "hicolor";
+      package = pkgs.hicolor-icon-theme;
     };
 
     # Ensure gtk-4.0 uses the theme (for "modern" libadwaita apps)
