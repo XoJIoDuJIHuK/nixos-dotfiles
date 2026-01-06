@@ -1,78 +1,41 @@
 #!/bin/sh
-#                _ _
-# __      ____ _| | |_ __   __ _ _ __   ___ _ __
-# \ \ /\ / / _` | | | '_ \ / _` | '_ \ / _ \ '__|
-#  \ V  V / (_| | | | |_) | (_| | |_) |  __/ |
-#   \_/\_/ \__,_|_|_| .__/ \__,_| .__/ \___|_|
-#                   |_|         |_|
+# Generate terminal colors from current wallpaper using ImageMagick
 
-# Simple wallpaper setter without ML4W cache dependencies
-
-# -----------------------------------------------------
-# Configuration
-# -----------------------------------------------------
-DEFAULT_WALLPAPER="$HOME/wallpaper/default.jpg"
 CACHE_FILE="$HOME/.config/hypr/cache/current_wallpaper"
+WAL_CACHE="$HOME/.cache/wal"
 
-# -----------------------------------------------------
-# Get wallpaper to use
-# -----------------------------------------------------
-if [ -z "$1" ]; then
-    if [ -f "$CACHE_FILE" ]; then
-        wallpaper=$(cat "$CACHE_FILE")
-    else
-        wallpaper="$DEFAULT_WALLPAPER"
-    fi
-else
-    wallpaper="$1"
+if [ ! -f "$CACHE_FILE" ]; then
+    exit 0
 fi
 
-echo ":: Setting wallpaper: $wallpaper"
+wallpaper=$(cat "$CACHE_FILE")
 
-# -----------------------------------------------------
-# Save wallpaper to cache
-# -----------------------------------------------------
-mkdir -p "$(dirname "$CACHE_FILE")"
-echo "$wallpaper" > "$CACHE_FILE"
-
-# -----------------------------------------------------
-# Set wallpaper with hyprpaper (backend for waypaper)
-# -----------------------------------------------------
-if command -v hyprctl >/dev/null 2>&1; then
-    hyprctl hyprpaper wallpaper "all,$wallpaper"
+if [ ! -f "$wallpaper" ]; then
+    exit 0
 fi
 
-# -----------------------------------------------------
-# Execute pywal for color generation
-# -----------------------------------------------------
-if command -v wal >/dev/null 2>&1; then
-    echo ":: Generating pywal colors"
-    wal -q -i "$wallpaper"
-    if [ -f "$HOME/.cache/wal/colors.sh" ]; then
-        source "$HOME/.cache/wal/colors.sh"
-    fi
-fi
+mkdir -p "$WAL_CACHE"
 
-# -----------------------------------------------------
-# Reload Waybar
-# -----------------------------------------------------
-if pgrep -x waybar >/dev/null; then
-    echo ":: Reloading Waybar"
-    killall -SIGUSR2 waybar
-fi
+bg=$(magick "$wallpaper" -scale 1x1 -depth 8 -format "#%[hex:p{0,0}]" info:-)
+fg=$(magick "$wallpaper" -scale 1x1 -depth 8 -negate -format "#%[hex:p{0,0}]" info:-)
 
-# -----------------------------------------------------
-# Pywalfox (optional)
-# -----------------------------------------------------
-if type pywalfox >/dev/null 2>&1; then
-    pywalfox update
-fi
-
-# -----------------------------------------------------
-# Create square wallpaper for hyprlock
-# -----------------------------------------------------
-square_wallpaper="$HOME/.config/hypr/cache/square_wallpaper.png"
-mkdir -p "$(dirname "$square_wallpaper")"
-if command -v magick >/dev/null 2>&1; then
-    magick "$wallpaper" -gravity Center -extent 1:1 "$square_wallpaper"
-fi
+cat > "$WAL_CACHE/colors.sh" <<EOF
+background='$bg'
+foreground='$fg'
+color0='$bg'
+color1='$bg'
+color2='$bg'
+color3='$bg'
+color4='$bg'
+color5='$bg'
+color6='$bg'
+color7='$fg'
+color8='$bg'
+color9='$bg'
+color10='$bg'
+color11='$bg'
+color12='$bg'
+color13='$bg'
+color14='$bg'
+color15='$fg'
+EOF
