@@ -1,2 +1,2 @@
 #!/bin/sh
-exec kitty tmux attach
+exec kitty
