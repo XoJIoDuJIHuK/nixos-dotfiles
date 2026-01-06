@@ -85,6 +85,11 @@
 
     sessionVariables = {
       UV_PYTHON_PREFERENCE = "only-managed";
+      # Forces GTK apps to use the portal (and thus the consistent file picker)
+      GTK_USE_PORTAL = "1";
+
+      # Hints Electron apps (Discord, VS Code, Obsidian) to use Wayland/Portal
+      NIXOS_OZONE_WL = "1";
     };
   };
 # Enable Sound (Pipewire)

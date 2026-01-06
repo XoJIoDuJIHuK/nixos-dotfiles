@@ -101,17 +101,67 @@ in {
     enableZshIntegration = true;
   };
 
-  # creates cascade of symlinks. to check if everything works fine, use `realpath` on a symlink
-  xdg.configFile = {
-    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
-    "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
-    "kitty".source         = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/kitty";
-    "btop".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/btop";
-    "hypr".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/hypr";
-    "nvim".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/nvim";
-    "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
-    "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
-    "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
+
+  xdg = {
+    # creates cascade of symlinks. to check if everything works fine, use `realpath` on a symlink
+    configFile = {
+      "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
+      "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
+      "kitty".source         = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/kitty";
+      "btop".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/btop";
+      "hypr".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/hypr";
+      "nvim".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/nvim";
+      "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
+      "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
+      "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
+    };
+
+    # for consistency in file pickers
+    portal = {
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk     # The file picker we want
+        pkgs.xdg-desktop-portal-hyprland # Needed for screen sharing
+      ];
+
+      # This is the critical part: tell the system WHICH portal to use for what.
+      config = {
+        common = {
+          default = [ "gtk" ];
+          # Force Hyprland for screen sharing/screenshots
+          "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
+        };
+      };
+    };
+  };
+
+  # theming
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Tokyonight-Dark-B";
+      package = pkgs.tokyonight-gtk-theme;
+    };
+    iconTheme = {
+      name = "Tokyonight-Dark"; # Or any compatible icon theme
+        package = pkgs.tokyonight-gtk-theme; # Often includes icons, or check pkgs
+    };
+
+    # Ensure gtk-4.0 uses the theme (for "modern" libadwaita apps)
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  # Also set Qt to use the GTK style so Qt apps match
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+    style.name = "gtk2";
   };
 
   programs.zoxide = {
