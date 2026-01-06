@@ -53,7 +53,7 @@
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs self; enableNvidia = true; };
+        specialArgs = { inherit inputs self; enableNvidia = true; hostname = "nixos"; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -70,7 +70,7 @@
 
       nixosConfigurations.nixos-intel = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs self; enableNvidia = false; };
+        specialArgs = { inherit inputs self; enableNvidia = false; hostname = "nixos-intel"; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager

@@ -1,8 +1,8 @@
-{ config, pkgs, lib, enableNvidia ? false, ... }:
+{ config, pkgs, lib, enableNvidia ? false, hostname ? "nixos", ... }:
 
 {
   imports = [
-    ./hardware-configuration.nix
+    ./homes/${hostname}/hardware-configuration.nix
     ./configs/sysc-greet.nix
   ] ++ lib.optional enableNvidia ./configs/nvidia.nix;
 
