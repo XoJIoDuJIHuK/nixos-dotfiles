@@ -1,4 +1,3 @@
-#!/bin/bash
 # Notification wrapper for caelestia-shell toaster IPC
 # Usage: notify.sh <type> <title> <message> [icon]
 # Types: info, success, error, warn
