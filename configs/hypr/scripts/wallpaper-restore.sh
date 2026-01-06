@@ -35,9 +35,11 @@ else
     wallpaper=$defaultwallpaper
 fi
 
-# ----------------------------------------------------- 
+# -----------------------------------------------------
 # Set wallpaper
-# ----------------------------------------------------- 
+# -----------------------------------------------------
 
 echo ":: Setting wallpaper with source image $wallpaper"
-waypaper --wallpaper "$wallpaper"
+if command -v hyprctl >/dev/null 2>&1; then
+    hyprctl hyprpaper wallpaper "all,$wallpaper"
+fi

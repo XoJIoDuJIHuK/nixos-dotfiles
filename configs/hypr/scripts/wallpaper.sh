@@ -36,9 +36,11 @@ mkdir -p "$(dirname "$CACHE_FILE")"
 echo "$wallpaper" > "$CACHE_FILE"
 
 # -----------------------------------------------------
-# Set wallpaper with waypaper
+# Set wallpaper with hyprpaper (backend for waypaper)
 # -----------------------------------------------------
-waypaper --wallpaper "$wallpaper"
+if command -v hyprctl >/dev/null 2>&1; then
+    hyprctl hyprpaper wallpaper "all,$wallpaper"
+fi
 
 # -----------------------------------------------------
 # Execute pywal for color generation
