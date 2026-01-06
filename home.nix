@@ -69,10 +69,18 @@ in {
     vesktop # discord community wrapper for noise suppression support
     yazi
     claude-code
-    wpsoffice
+    opencode
     thunderbird
     pdftk
 
+    # office suites
+    wpsoffice
+
+    libreoffice-qt-fresh
+    hunspell
+    hunspellDicts.uk_UA
+
+    # fonts
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     fira-sans
