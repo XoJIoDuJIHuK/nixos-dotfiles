@@ -3,6 +3,6 @@
 -- Add any additional options here
 
 -- Faster timeout for which-key popup (reduce lag when pressing Esc)
-vim.opt.timeoutlen = 150
--- Longer ttimeoutlen to prevent Esc+j/k from registering as Alt+j/k
-vim.opt.ttimeoutlen = 100
+vim.opt.timeoutlen = 10
+-- Shorter ttimeoutlen to make Esc register immediately and prevent Alt+j/k
+vim.opt.ttimeoutlen = 5
