@@ -116,15 +116,16 @@ in {
   xdg = {
     # creates cascade of symlinks. to check if everything works fine, use `realpath` on a symlink
     configFile = {
-      "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
-      "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
-      "kitty".source         = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/kitty";
       "btop".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/btop";
+      "caelestia".source     = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/caelestia";
+      "foot".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/foot";
       "hypr".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/hypr";
+      "kitty".source         = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/kitty";
       "nvim".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/nvim";
       "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
       "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
       "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
+      "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
     };
 
     # for consistency in file pickers
