@@ -180,7 +180,7 @@ in {
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      l = "ls -lah";
+      l = "eza -l -h";
       v = "nvim";
       update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles";
       lg = "lazygit";
