@@ -73,6 +73,7 @@ in {
     opencode
     thunderbird
     pdftk
+    nodejs_25  # just for npm for nvim plugins. what a waste
 
     # office suites
     wpsoffice
