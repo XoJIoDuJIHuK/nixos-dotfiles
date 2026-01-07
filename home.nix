@@ -3,6 +3,7 @@ let
   dotfilesDir = "/home/${username}/.dotfiles";
 in {
   imports = [
+    ./configs/mail.nix
     caelestia-shell.homeManagerModules.default
   ];
 
