@@ -49,6 +49,7 @@ in {
     killall  # for waybar
     cliphist # speaks for itself
     wl-clipboard
+    chroma # for syntax highlighting in ccat
     python3  # for waybar scripts
     wget # for mason
     unzip
@@ -66,7 +67,6 @@ in {
     lazygit
     lazysql
     telegram-desktop
-    discord
     vesktop # discord community wrapper for noise suppression support
     yazi
     claude-code
@@ -76,11 +76,9 @@ in {
 
     # office suites
     wpsoffice
-
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.uk_UA
-
     onlyoffice-desktopeditors
 
     # fonts
@@ -96,8 +94,6 @@ in {
     docker-compose
   ];
 
-  # services.dunst.enable = true; # replaced by caelestia-shell
-
   home.pointerCursor = {
     gtk.enable = true;
     package = pkgs.bibata-cursors;
@@ -105,13 +101,10 @@ in {
     size = 24;
   };
 
-
-
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
   };
-
 
   xdg = {
     # creates cascade of symlinks. to check if everything works fine, use `realpath` on a symlink
@@ -219,20 +212,20 @@ in {
       enable = true;
 
       plugins = [
-        "colorize"
-        "copybuffer"
-        "copyfile"
-        "dotenv"
-        "dirhistory"
-        "docker"
-        "docker-compose"
-        "git"
-        "pip"
-        "ssh"
-        "ssh-agent"
-        "sudo"
-        "ufw"
-        "vi-mode"
+        "colorize"       # syntax highlighting for file contents when using cat: `ccat file.py`
+        "copybuffer"     # press Ctrl+O to copy current command
+        "copyfile"       # provides `copyfile` binary to copy file contents to clipboard
+        "dotenv"         # auto-loads .env files when cd'ing into directories
+        "dirhistory"     # navigate directory history with Alt+Left/Right(back/forth)/Up/Down(to parent/to child)
+        "docker"         # auto-completion for docker commands
+        "docker-compose" # auto-completion for docker-compose commands
+        "git"            # git aliases (gst, gco, etc.) and completion
+        "pip"            # auto-completion for pip commands
+        "ssh"            # auto-completion for ssh hosts
+        "ssh-agent"      # automatically manages ssh-agent and loads keys
+        "sudo"           # press Esc twice to prefix current command with sudo
+        "ufw"            # auto-completion for ufw firewall commands
+        "vi-mode"        # vim-style keybindings in zsh (one Esc to enter, i to exit)
       ];
     };
 
