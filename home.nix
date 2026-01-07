@@ -77,6 +77,8 @@ in {
     nodejs_25  # just for npm for nvim plugins. what a waste
     yt-dlp
     ffmpeg
+    ncdu # tui for examining occupied space
+    nix-tree # tui for examining space occupied by each package with dependencies
 
     # office suites
     wpsoffice
