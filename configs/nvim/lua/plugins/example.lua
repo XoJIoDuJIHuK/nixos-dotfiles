@@ -45,7 +45,7 @@ return {
     },
   },
 
-{
+  {
     "neovim/nvim-lspconfig",
     opts = {
       -- Options for vim.diagnostic.config()
@@ -72,8 +72,20 @@ return {
             },
             python = {
               analysis = {
-                ignore = { "*" }, -- Use Ruff for linting
-                typeCheckingMode = "basic", -- strictly type checking
+                typeCheckingMode = "basic", -- "off" disables too much, "basic" is standard
+
+                -- 1. Disable stylistic/linter rules (let Ruff handle these)
+                reportUnusedImport = "none",
+                reportUnusedClass = "none",
+                reportUnusedFunction = "none",
+                reportUnusedVariable = "none",
+                reportDuplicateImport = "none",
+
+                -- 2. Enable critical type/validity checks (what you actually want)
+                reportMissingImports = "error",
+                reportUndefinedVariable = "error",
+                reportGeneralTypeIssues = "error",   -- Helps with type mismatches
+                reportOptionalMemberAccess = "none", -- Set to "error" if you want strict null checks
               },
             },
           },
@@ -100,7 +112,7 @@ return {
               local python_path = get_venv_path(client.config.root_dir)
               -- Fallback to system python or active virtual_env if not found locally
               if not python_path and vim.env.VIRTUAL_ENV then
-                 python_path = vim.env.VIRTUAL_ENV .. "/bin/python"
+                python_path = vim.env.VIRTUAL_ENV .. "/bin/python"
               end
 
               -- Inject the python path into the config
@@ -112,7 +124,7 @@ return {
             end
           end,
         },
-        
+
         -- Ruff (Linter & Formatter)
         -- Latest LazyVim uses the native "ruff" server (written in Rust), replacing "ruff_lsp"
         ruff = {
@@ -142,7 +154,7 @@ return {
         -- ========================================================================
         -- REACT / TYPESCRIPT / WEB CONFIGURATION
         -- ========================================================================
-        
+
         -- "vtsls" is the new standard for LazyVim (superior to tsserver/ts_ls)
         -- It handles JS, TS, JSX, and TSX
         vtsls = {
@@ -189,13 +201,13 @@ return {
 
         -- CSS Support
         cssls = {},
-        
+
         -- (Optional) Emmet for fast HTML/CSS writing
         emmet_language_server = {
           filetypes = { "html", "css", "javascriptreact", "typescriptreact", "eruby" },
         },
       },
-      
+
       -- Ensure these are installed via Mason
       setup = {
         -- This logic ensures that if you are using 'vtsls', standard 'ts_ls' is disabled to avoid conflicts
