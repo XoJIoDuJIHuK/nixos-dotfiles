@@ -74,6 +74,8 @@ in {
     thunderbird
     pdftk
     nodejs_25  # just for npm for nvim plugins. what a waste
+    yt-dlp
+    ffmpeg
 
     # office suites
     wpsoffice
