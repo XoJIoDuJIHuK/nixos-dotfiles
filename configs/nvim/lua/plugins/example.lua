@@ -45,93 +45,165 @@ return {
     },
   },
 
-  {
-    "nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile", "VeryLazy" }, -- Load before LazyFile and ensure it loads
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
+{
+    "neovim/nvim-lspconfig",
+    opts = {
+      -- Options for vim.diagnostic.config()
+      diagnostics = {
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+        },
+        severity_sort = true,
+      },
+      -- Register the servers you want
+      servers = {
+        -- ========================================================================
+        -- PYTHON CONFIGURATION (Pyright + Ruff)
+        -- ========================================================================
+        pyright = {
+          -- 1. Disable features handled by Ruff to avoid conflicts
+          settings = {
+            pyright = {
+              disableOrganizeImports = true, -- Using Ruff for this
+            },
+            python = {
+              analysis = {
+                ignore = { "*" }, -- Use Ruff for linting
+                typeCheckingMode = "basic", -- strictly type checking
+              },
+            },
+          },
+          -- 2. DYNAMIC VENV DETECTION
+          -- This function runs before the LSP attaches to the buffer.
+          -- It finds the venv relative to the *current file's project root*, not just cwd.
+          on_init = function(client)
+            local function get_venv_path(root_dir)
+              -- Try to find .venv, venv, or env in the project root
+              for _, name in ipairs({ ".venv", "venv", "env" }) do
+                local venv = root_dir .. "/" .. name
+                if vim.fn.isdirectory(venv) == 1 then
+                  local python_bin = venv .. "/bin/python"
+                  if vim.fn.executable(python_bin) == 1 then
+                    return python_bin
+                  end
+                end
+              end
+              return nil
+            end
+
+            -- If the client has a root directory, try to find the venv there
+            if client.config.root_dir then
+              local python_path = get_venv_path(client.config.root_dir)
+              -- Fallback to system python or active virtual_env if not found locally
+              if not python_path and vim.env.VIRTUAL_ENV then
+                 python_path = vim.env.VIRTUAL_ENV .. "/bin/python"
+              end
+
+              -- Inject the python path into the config
+              if python_path then
+                client.config.settings.python.pythonPath = python_path
+                -- Notify the server of the configuration change
+                client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+              end
+            end
+          end,
+        },
+        
+        -- Ruff (Linter & Formatter)
+        -- Latest LazyVim uses the native "ruff" server (written in Rust), replacing "ruff_lsp"
+        ruff = {
+          cmd_env = { RUFF_TRACE = "messages" },
+          init_options = {
+            settings = {
+              logLevel = "error",
+            },
+          },
+          keys = {
+            {
+              "<leader>co",
+              function()
+                vim.lsp.buf.code_action({
+                  apply = true,
+                  context = {
+                    only = { "source.organizeImports" },
+                    diagnostics = {},
+                  },
+                })
+              end,
+              desc = "Organize Imports",
+            },
+          },
+        },
+
+        -- ========================================================================
+        -- REACT / TYPESCRIPT / WEB CONFIGURATION
+        -- ========================================================================
+        
+        -- "vtsls" is the new standard for LazyVim (superior to tsserver/ts_ls)
+        -- It handles JS, TS, JSX, and TSX
+        vtsls = {
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+          },
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              suggest = {
+                completeFunctionCalls = true,
+              },
+              inlayHints = {
+                parameterNames = { enabled = "literals" },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
+              },
+            },
+          },
+        },
+
+        -- HTML Support
+        html = {
+          filetypes = { "html", "javascript", "javascriptreact", "typescriptreact" },
+        },
+
+        -- CSS Support
+        cssls = {},
+        
+        -- (Optional) Emmet for fast HTML/CSS writing
+        emmet_language_server = {
+          filetypes = { "html", "css", "javascriptreact", "typescriptreact", "eruby" },
+        },
+      },
+      
+      -- Ensure these are installed via Mason
+      setup = {
+        -- This logic ensures that if you are using 'vtsls', standard 'ts_ls' is disabled to avoid conflicts
+        ts_ls = function()
+          return true -- Prevent ts_ls from loading since we use vtsls
+        end,
+      },
     },
-    config = function()
-      local mason = require("mason")
-      mason.setup()
-      local mason_lspconfig = require("mason-lspconfig")
-
-      local function get_venv_python()
-        local cwd = vim.fn.getcwd()
-        for _, name in ipairs({ ".venv", "venv", "env" }) do
-          local py = cwd .. "/" .. name .. "/bin/python"
-          if vim.fn.executable(py) == 1 then
-            return py
-          end
-        end
-        -- you could also check VIRTUAL_ENV:
-        if vim.env.VIRTUAL_ENV then
-          return vim.env.VIRTUAL_ENV .. "/bin/python"
-        end
-        return nil
-      end
-
-      mason_lspconfig.setup({
-        ensure_installed = {
-          "ruff",
-          "pyright",
-          "gopls",
-        },
-        automatic_enable = true,
-      })
-
-      -- Setup LSP servers using the new API
-      require("lspconfig").pyright.setup({
-        settings = {
-          pyright = {
-            disableOrganizeImports = true,
-          },
-          python = {
-            pythonPath = get_venv_python() or vim.fn.exepath("python3") or vim.fn.exepath("python"),
-            analysis = {
-              ignore = { '*' },
-            },
-          },
-        },
-      })
-
-      require("lspconfig").ruff.setup({})
-
-      -- Setup gopls for Go
-      require("lspconfig").gopls.setup({
-        settings = {
-          gopls = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            experimentalPostfixCompletions = true,
-            analyses = {
-              unusedparams = true,
-              shadow = true,
-            },
-            staticcheck = true,
-          },
-        },
-      })
-    end,
   },
 
 
