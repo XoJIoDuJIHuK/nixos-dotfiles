@@ -42,11 +42,10 @@ symbol = "❄️ "
 format = "via [$symbol$name]($style) "
 
 [character]
-# standard: ❯, root: #
-success_symbol = "[❯](bold purple)"
-error_symbol = "[❯](bold red)"
-# This covers your "sudo" request: The prompt turns red and becomes '#' if root
-vimcmd_symbol = "[❮](bold green)" 
+success_symbol = "[INS ❯](bold green)"
+error_symbol = "[INS ❯](bold red)"
+vimcmd_symbol = "[NOR ❮](purple)"
+vimcmd_visual_symbol = "[VIS ❮](bold purple)" 
 
 [username]
 # Only shows if you are root or logged in via SSH
