@@ -110,6 +110,13 @@
     zenity  # This fixes the "zenity reported error"
   ];
 
+  services.netbird.enable = true;
+  systemd.services.netbird.environment = {
+    NB_MANAGEMENT_URL = "https://ra.internal.whitesnake.by:33073/";
+    NB_ADMIN_URL = "https://ra.internal.whitesnake.by/";
+  };
+
+
   # Do not change this value
   system.stateVersion = "25.05";
 }
