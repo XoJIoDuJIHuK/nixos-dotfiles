@@ -21,6 +21,19 @@
     enable = true;
   };
 
+  # Enable Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
+
+  services.blueman.enable = true;
+
   # Networking
   networking = {
     hostName = hostname;
@@ -50,6 +63,8 @@
     systemPackages = with pkgs; [
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
+      bluez
+      bluez-tools
     ];
 
     sessionVariables = {
@@ -74,7 +89,7 @@
   users.users.aleh = {
     isNormalUser = true;
     description = "Aleh";
-    extraGroups = [ "networkmanager" "wheel" "video"];
+    extraGroups = [ "networkmanager" "wheel" "video" "bluetooth"];
   };
 
   # Enable Flakes
