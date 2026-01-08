@@ -269,6 +269,12 @@ in {
     # Using 'pkgs.tmuxPlugins' allows Nix to handle versioning and installation
     plugins = with pkgs.tmuxPlugins; [
       {
+        plugin = tokyo-night-tmux;
+        extraConfig = ''
+          set -g @theme_variation 'moon'
+        '';
+      }
+      {
         plugin = resurrect;
         extraConfig = ''
           # Resurrect Settings
@@ -291,12 +297,6 @@ in {
           set -g @continuum-save-interval '15'
           set -g @continuum_save_dir '~/.tmux/resurrect' # This is usually handled by resurrect
           run-shell 'mkdir -p ~/.tmux/resurrect'
-        '';
-      }
-      {
-        plugin = tokyo-night-tmux;
-        extraConfig = ''
-          set -g @theme_variation 'moon'
         '';
       }
     ];
