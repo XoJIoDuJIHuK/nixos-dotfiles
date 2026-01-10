@@ -98,6 +98,7 @@ in {
 
     docker
     docker-compose
+    inputs.sqlit.packages."${pkgs.stdenv.hostPlatform.system}".default
   ];
 
   home.pointerCursor = {

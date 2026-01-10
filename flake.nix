@@ -35,6 +35,8 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sqlit.url = "github:Maxteabag/sqlit";
   };
 
   outputs = {
@@ -43,6 +45,7 @@
     home-manager,
     zen-browser,
     caelestia-shell,
+    sqlit,
     sysc-greet,
     nixvim,
     ... }@inputs:
