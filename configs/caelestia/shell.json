@@ -34,7 +34,7 @@
   "general": {
     "apps": {
       "terminal": [
-        "foot"
+        "kitty"
       ],
       "audio": [
         "pavucontrol"
@@ -146,7 +146,7 @@
       "showKbLayout": true,
       "showNetwork": true,
       "showBluetooth": true,
-      "showBattery": false,
+      "showBattery": true,
       "showLockStatus": false
     },
     "clock": {
