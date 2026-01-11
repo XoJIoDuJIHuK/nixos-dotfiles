@@ -23,7 +23,6 @@ in {
     btop
     fastfetch
     kitty
-    foot
     keepassxc
     syncthing
     gcc # for nvim
@@ -59,7 +58,6 @@ in {
     pulseaudio
     grimblast # for screenshots
     pinta # for screenshot editing
-    # dunst # notifications - replaced by caelestia-shell
     numbat # tui calculator
     qbittorrent
     uv
@@ -77,6 +75,8 @@ in {
     nodejs_25  # just for npm for nvim plugins. what a waste
     yt-dlp
     ffmpeg
+    cmake  # to build caelestia
+    ninja  # to build caelestia
     ncdu # tui for examining occupied space
     nix-tree # tui for examining space occupied by each package with dependencies
 
