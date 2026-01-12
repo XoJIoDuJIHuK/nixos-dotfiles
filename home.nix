@@ -79,6 +79,8 @@ in {
     ninja  # to build caelestia
     ncdu # tui for examining occupied space
     nix-tree # tui for examining space occupied by each package with dependencies
+    deepfilternet  # for noise suppression in discord
+    nvtopPackages.full  # btop for gpus
 
     # office suites
     wpsoffice
@@ -126,6 +128,39 @@ in {
       "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
       "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
       "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
+      "pipewire/pipewire.conf.d/99-input-denoising.conf".text = ''
+context.modules = [
+  {
+    name = libpipewire-module-filter-chain
+    args = {
+      node.description =  "DeepFilter Noise Canceling Source"
+      media.name =  "DeepFilter Noise Canceling Source"
+      filter.graph = {
+        nodes = [
+          {
+            type = ladspa
+            name = "DeepFilter Mono"
+            # FIXED: Correct filename is libdeep_filter_ladspa.so
+            plugin = "${pkgs.deepfilternet}/lib/ladspa/libdeep_filter_ladspa.so"
+            # FIXED: Correct label for DeepFilterNet
+            label = "deep_filter_mono"
+          }
+        ]
+      }
+      capture.props = {
+        node.name =  "capture.DeepFilter_source"
+        node.passive = true
+        audio.rate = 48000
+      }
+      playback.props = {
+        node.name =  "deepfilter_source"
+        media.class = Audio/Source
+        audio.rate = 48000
+      }
+    }
+  }
+]
+      '';
     };
 
     # for consistency in file pickers
