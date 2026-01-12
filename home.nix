@@ -79,6 +79,7 @@ in {
     ninja  # to build caelestia
     ncdu # tui for examining occupied space
     nix-tree # tui for examining space occupied by each package with dependencies
+    mpv
     deepfilternet  # for noise suppression in discord
     nvtopPackages.full  # btop for gpus
 
@@ -97,6 +98,7 @@ in {
     nerd-fonts.hack
     font-awesome
     corefonts # fonts for wpsoffice
+    inter
 
     docker
     docker-compose
@@ -166,6 +168,7 @@ context.modules = [
     # for consistency in file pickers
     portal = {
       enable = true;
+      xdgOpenUsePortal = true; # Ensures 'xdg-open' uses the portal
       extraPortals = [
         pkgs.xdg-desktop-portal-gtk     # The file picker we want
         pkgs.xdg-desktop-portal-hyprland # Needed for screen sharing
@@ -191,8 +194,12 @@ context.modules = [
       package = pkgs.tokyonight-gtk-theme;
     };
     iconTheme = {
-      name = "hicolor";
-      package = pkgs.hicolor-icon-theme;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    font = {
+      name = "Inter";
+      size = 11;
     };
 
     # Ensure gtk-4.0 uses the theme (for "modern" libadwaita apps)
@@ -208,8 +215,21 @@ context.modules = [
   qt = {
     enable = true;
     platformTheme.name = "gtk";
-    style.name = "gtk2";
+    style.name = "gtk3";
   };
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Tokyonight-Dark-B";    # Must match your gtk.theme.name
+      icon-theme = "Papirus-Dark";        # Papirus looks much more modern than hicolor
+    };
+    # Forcing standard file picker settings (optional but good for consistency)
+    "org/gtk/settings/file-chooser" = {
+      sort-directories-first = true;
+    };
+  };
+
 
   programs.zoxide = {
     enable = true;
