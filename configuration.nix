@@ -150,4 +150,8 @@
 
   # Do not change this value
   system.stateVersion = "25.05";
+
+  virtualisation.docker = {
+    enable = true;
+  };
 }
