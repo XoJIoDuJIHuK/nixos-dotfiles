@@ -147,6 +147,7 @@
     NB_ADMIN_URL = "https://ra.internal.whitesnake.by/";
   };
 
+  services.tailscale.enable = true;  # single `sudo tailscale up` is needed afterwards
 
   # Do not change this value
   system.stateVersion = "25.05";
