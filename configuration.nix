@@ -105,7 +105,7 @@
   users.users.aleh = {
     isNormalUser = true;
     description = "Aleh";
-    extraGroups = [ "networkmanager" "wheel" "video" "bluetooth"];
+    extraGroups = [ "networkmanager" "wheel" "video" "bluetooth" "docker"];
   };
 
   # Enable Flakes
