@@ -298,7 +298,7 @@ context.modules = [
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      l = "eza -l -h";
+      l = "eza -la -h";
       v = "nvim";
       update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles#${hostname}";
       lg = "lazygit";
