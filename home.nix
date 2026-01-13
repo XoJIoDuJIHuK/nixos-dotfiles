@@ -75,6 +75,7 @@ in {
     nodejs_25  # just for npm for nvim plugins. what a waste
     yt-dlp
     ffmpeg
+    gnumake
     cmake  # to build caelestia
     ninja  # to build caelestia
     ncdu # tui for examining occupied space
