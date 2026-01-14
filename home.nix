@@ -311,6 +311,10 @@ context.modules = [
     initContent = ''
       export EDITOR=nvim
     '';
+
+    initExtra = ''
+      export PATH="$PATH:$HOME/.local/bin"
+    '';
   };
 
   programs.tmux = {

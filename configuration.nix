@@ -139,6 +139,11 @@
     alsa-lib
     libpulseaudio
     zenity  # This fixes the "zenity reported error"
+    # WeasyPrint dependencies
+    fontconfig
+    pango
+    cairo
+    libffi
   ];
 
   services.netbird.enable = true;
