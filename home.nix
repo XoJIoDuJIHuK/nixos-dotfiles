@@ -48,9 +48,13 @@ in {
     wlogout  # for logging out screen
     killall  # for waybar
     cliphist # speaks for itself
+    sqlit-tui
+    (python3.withPackages (ps: with ps; [
+      psycopg2          # ← this is the binary + C binding version in nixpkgs
+    ])) # already ships python binary
+    postgresql
     wl-clipboard
     chroma # for syntax highlighting in ccat
-    python3  # for waybar scripts
     wget # for mason
     unzip
     brightnessctl
@@ -310,9 +314,6 @@ context.modules = [
 
     initContent = ''
       export EDITOR=nvim
-    '';
-
-    initExtra = ''
       export PATH="$PATH:$HOME/.local/bin"
     '';
   };
