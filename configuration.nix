@@ -105,7 +105,14 @@
   users.users.aleh = {
     isNormalUser = true;
     description = "Aleh";
-    extraGroups = [ "networkmanager" "wheel" "video" "bluetooth" "docker"];
+    extraGroups = [ 
+      "networkmanager"
+      "wheel"
+      "video"
+      "bluetooth"
+      "docker"
+      "lpadmin"
+    ];
   };
 
   # Enable Flakes
@@ -153,6 +160,7 @@
   };
 
   services.tailscale.enable = true;  # single `sudo tailscale up` is needed afterwards
+  services.printing.enable = true; # CUPS service for document frinting
 
   # Do not change this value
   system.stateVersion = "25.05";
