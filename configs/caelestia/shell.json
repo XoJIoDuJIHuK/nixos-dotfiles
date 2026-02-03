@@ -52,19 +52,19 @@
       "timeouts": [
         {
           "idleAction": "lock",
-          "timeout": 300
+          "timeout": 60000
         },
         {
           "idleAction": "dpms off",
           "returnAction": "dpms on",
-          "timeout": 600
+          "timeout": 90000
         },
         {
           "idleAction": [
             "systemctl",
             "suspend-then-hibernate"
           ],
-          "timeout": 666
+          "timeout": 999000
         }
       ]
     },

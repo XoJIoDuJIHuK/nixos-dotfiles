@@ -26,6 +26,7 @@ in {
     keepassxc
     syncthing
     gcc # for nvim
+    fd # `file` alternative for nvim
 
     hyprland
     hypridle
@@ -77,6 +78,7 @@ in {
     thunderbird
     pdftk
     nodejs_25  # just for npm for nvim plugins. what a waste
+    yarn # for frontend projects that require it. also a waste
     yt-dlp
     ffmpeg
     gnumake
