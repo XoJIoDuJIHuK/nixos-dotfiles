@@ -79,6 +79,10 @@ in {
     pdftk
     nodejs_25  # just for npm for nvim plugins. what a waste
     yarn # for frontend projects that require it. also a waste
+    mongodb-compass
+    prettier
+    nomachine-client
+    dwarf-fortress
     yt-dlp
     ffmpeg
     gnumake
