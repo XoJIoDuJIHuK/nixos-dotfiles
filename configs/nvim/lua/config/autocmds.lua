@@ -9,13 +9,13 @@
 
 vim.api.nvim_create_augroup("AutoFormat", {})
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = { "*.py", "*.js", "*.ts", "*.jsx", "*.tsx", "*.vue", "*.css", "*.html", "*.go", "*.lua", "*.toml" },
-  group = "AutoFormat",
-  callback = function()
-    vim.cmd("lua vim.lsp.buf.format()")
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--   pattern = { "*.py", "*.js", "*.ts", "*.jsx", "*.tsx", "*.vue", "*.css", "*.html", "*.go", "*.lua", "*.toml" },
+--   group = "AutoFormat",
+--   callback = function()
+--     vim.cmd("lua vim.lsp.buf.format()")
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
