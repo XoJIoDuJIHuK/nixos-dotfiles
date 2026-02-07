@@ -15,6 +15,7 @@ in {
   home.packages = with pkgs; [
     firefox
     brave
+    qutebrowser
     inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
 
     git
