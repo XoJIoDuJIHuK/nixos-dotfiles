@@ -43,7 +43,7 @@
         "mpv"
       ],
       "explorer": [
-        "thunar"
+        "yazi"
       ]
     },
     "idle": {
@@ -353,7 +353,7 @@
           "systemctl",
           "poweroff"
         ],
-        "dangerous": true,
+        "dangerous": false,
         "description": "Shutdown the system",
         "enabled": true,
         "icon": "power_settings_new",
@@ -488,15 +488,9 @@
       "audioInputChanged": true,
       "capsLockChanged": false,
       "numLockChanged": false,
-      "kbLayoutChanged": true,
+      "kbLayoutChanged": false,
       "vpnChanged": true,
       "nowPlaying": true
-    },
-    "vpn": {
-      "enabled": false,
-      "provider": [
-        "netbird"
-      ]
     }
   },
   "sidebar": {
@@ -507,7 +501,7 @@
     }
   },
   "services": {
-    "weatherLocation": "",
+    "weatherLocation": "Minsk, Belarus",
     "useFahrenheit": false,
     "useTwelveHourClock": false,
     "gpuType": "",
