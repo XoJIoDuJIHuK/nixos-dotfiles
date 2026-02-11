@@ -95,6 +95,12 @@ in {
     mpv
     deepfilternet  # for noise suppression in discord
     nvtopPackages.full  # btop for gpus
+    usbutils # for android phone connection
+    simple-mtpfs # for android phone connection
+    # …/.dotfiles  master INS ❯ mkdir ~/android-mount
+    # …/.dotfiles  master INS ❯ simple-mtpfs ~/android-mount
+    # …/.dotfiles  master INS ❯ simple-mtpfs --list-devices
+    trashy
 
     # office suites
     wpsoffice
