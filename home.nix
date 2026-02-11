@@ -72,6 +72,7 @@ in {
     lazygit
     lazysql
     telegram-desktop
+    session-desktop
     vesktop # discord community wrapper for noise suppression support
     yazi
     claude-code
