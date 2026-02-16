@@ -80,6 +80,7 @@ in {
     thunderbird
     pdftk
     nodejs_25  # just for npm for nvim plugins. what a waste
+    pnpm
     yarn # for frontend projects that require it. also a waste
     mongodb-compass
     prettier
@@ -101,6 +102,7 @@ in {
     # …/.dotfiles  master INS ❯ simple-mtpfs ~/android-mount
     # …/.dotfiles  master INS ❯ simple-mtpfs --list-devices
     trashy
+    pandoc # for md2pdf: `pandoc document.md --pdf-engine=weasyprint -o document.pdf`
 
     # office suites
     wpsoffice
@@ -147,6 +149,7 @@ in {
       "rofi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/rofi";
       "waybar".source        = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waybar";
       "waypaper".source      = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/waypaper";
+      "yazi".source          = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/yazi";
       "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/configs/starship.toml";
       "pipewire/pipewire.conf.d/99-input-denoising.conf".text = ''
 context.modules = [

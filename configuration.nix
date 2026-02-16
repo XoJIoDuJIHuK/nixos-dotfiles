@@ -4,6 +4,7 @@
   imports = [
     ./homes/${hostname}/hardware-configuration.nix
     ./configs/sysc-greet.nix
+    ./modules/sing-box.nix
   ] ++ lib.optional enableNvidia ./configs/nvidia.nix;
 
   # Bootloader (Assumes UEFI)
