@@ -104,6 +104,9 @@ in {
     trashy
     pandoc # for md2pdf: `pandoc document.md --pdf-engine=weasyprint -o document.pdf`
 
+    bitwarden-desktop
+    bitwarden-cli
+
     # office suites
     wpsoffice
     libreoffice-qt-fresh
