@@ -17,6 +17,15 @@ vim.api.nvim_create_augroup("AutoFormat", {})
 --   end,
 -- })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  group = vim.api.nvim_create_augroup("enable_python_format", { clear = true }),
+  callback = function()
+    vim.g.autoformat = true
+  end,
+  desc = "Enable autoformat for Python files",
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
   callback = function(args)

@@ -13,3 +13,16 @@ vim.keymap.set("n", "<leader>s.", function()
   end -- Cancel if empty
   require("telescope.builtin").live_grep({ cwd = custom_cwd })
 end, { desc = "Grep (custom dir)" })
+
+-- Rename current file with LSP import updates
+vim.keymap.set("n", "<leader>rf", function()
+  local old_name = vim.fn.expand("%:t")
+  local new_name = vim.fn.input("New filename: ", old_name, "file")
+  if new_name and new_name ~= "" and new_name ~= old_name then
+    local old_path = vim.fn.expand("%:p")
+    local new_path = vim.fn.expand("%:p:h") .. "/" .. new_name
+    vim.fn.rename(old_path, new_path)
+    vim.cmd("edit " .. new_path)
+    vim.notify("Renamed to: " .. new_name)
+  end
+end, { desc = "Rename file (update imports)" })
