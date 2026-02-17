@@ -159,12 +159,6 @@
     libffi
   ];
 
-  services.netbird.enable = true;
-  systemd.services.netbird.environment = {
-    NB_MANAGEMENT_URL = "https://ra.internal.whitesnake.by:33073/";
-    NB_ADMIN_URL = "https://ra.internal.whitesnake.by/";
-  };
-
   services.tailscale.enable = true;  # single `sudo tailscale up` is needed afterwards
   services.printing.enable = true; # CUPS service for document frinting
 
