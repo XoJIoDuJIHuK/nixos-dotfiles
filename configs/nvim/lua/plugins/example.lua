@@ -53,6 +53,7 @@ return {
         javascriptreact = { "prettier" },
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
+        vue = { "prettier" },
       },
     },
   },
@@ -174,6 +175,7 @@ return {
             "typescript",
             "typescriptreact",
             "typescript.tsx",
+            "vue",
           },
           settings = {
             complete_function_calls = true,
@@ -183,6 +185,17 @@ return {
               experimental = {
                 completion = {
                   enableServerSideFuzzyMatch = true,
+                },
+              },
+              tsserver = {
+                globalPlugins = {
+                  {
+                    name = "@vue/typescript-plugin",
+                    location = vim.fn.expand("~/.local/share/nvim/mason/packages/vue-language-server/node_modules/@vue/language-server"),
+                    languages = { "vue" },
+                    configNamespace = "typescript",
+                    enableForWorkspaceTypeScriptVersions = true,
+                  },
                 },
               },
             },
@@ -213,7 +226,18 @@ return {
 
         -- (Optional) Emmet for fast HTML/CSS writing
         emmet_language_server = {
-          filetypes = { "html", "css", "javascriptreact", "typescriptreact", "eruby" },
+          filetypes = { "html", "css", "javascriptreact", "typescriptreact", "vue", "eruby" },
+        },
+
+        -- Vue.js Support
+        vue_ls = {
+          init_options = {
+            vue = {
+              -- Disable "hybrid mode" manually if you encounter dual-server issues,
+              -- but standard Volar 2.0+ works best with it enabled (default).
+              -- hybridMode = true, 
+            },
+          },
         },
       },
 
@@ -249,6 +273,7 @@ return {
         "tsx",
         "typescript",
         "vim",
+        "vue",
         "yaml",
       },
     },
