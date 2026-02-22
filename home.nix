@@ -29,6 +29,10 @@ in {
     gcc # for nvim
     fd # `file` alternative for nvim
 
+    steam
+    lutris
+    protonup-qt
+
     hyprland
     hypridle
     hyprlock
@@ -75,6 +79,7 @@ in {
     session-desktop
     vesktop # discord community wrapper for noise suppression support
     yazi
+    nautilus
     claude-code
     opencode
     thunderbird
@@ -108,11 +113,11 @@ in {
     bitwarden-cli
 
     # office suites
-    wpsoffice
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.uk_UA
     onlyoffice-desktopeditors
+    texliveMedium # for formulas in libreoffice. bruh
 
     # fonts
     nerd-fonts.jetbrains-mono
@@ -126,6 +131,8 @@ in {
 
     docker
     docker-compose
+    k3d  # tool to run kubernetes locally
+    tilt # tool to manage kubernetes
   ];
 
   home.pointerCursor = {
