@@ -404,5 +404,7 @@ context.modules = [
     systemd.target = "default.target";
   };
 
+  services.udiskie.enable = true;
+
   home.stateVersion = "25.05";
 }

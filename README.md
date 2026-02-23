@@ -1,20 +1,25 @@
 # Installation on clean system
 
-Was tested on ISO 26.05 with GNOME default DE on install (when choosing no DE option for some reason Nix could not build Quickshell: clang failed with segfault)
+Was tested on ISO 25.11 with GNOME default DE on install (when choosing no DE option for some reason Nix could not build Quickshell: clang failed with segfault)
 
 Choose GNOME as DE (easier to find and fix issues is they arise) and execute
+
+Set wifi powersave mode beforehand if on wifi (powersave mode can throttle network speed to literal zero). Don't forget to rebuild (`sudo nixos-rebuild switch`)
+
+```nix
+networking.networkmanager.wifi.powersave = false;
+```
 
 ```sh
 nix-shell -p git
 git clone https://github.com/XoJIoDuJIHuK/nixos-dotfiles .dotfiles
 mkcd -p .dotfiles/homes/${desired_hostname} # must not be occupied by another folder. Currently only options nixos and nixos-intel are supported, and for new ones new entries in flake.nix are required. Defining them is pretty straightforward
 cp /etc/nixos/hardware-configuration.nix .
-sudo nixos-rebuild switch --flake .dotfiles#nixos # for nvidia GPU
-sudo nixos-rebuild switch --flake .dotfiles#nixos-intel # for intel integrated card
+sudo nixos-rebuild switch --flake ~/.dotfiles#nixos # for nvidia GPU
+sudo nixos-rebuild switch --flake ~/.dotfiles#nixos-intel # for intel integrated card
 ```
 
-
-Probably reboot. This should suffice
+Reboot. This should suffice
 
 ## TODO
 

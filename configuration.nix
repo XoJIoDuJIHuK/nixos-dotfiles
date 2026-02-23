@@ -40,6 +40,9 @@
 
   services.blueman.enable = true;
 
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
   # Power Management
   powerManagement = {
     enable = true;
@@ -87,6 +90,7 @@
       xdg-desktop-portal-gtk
       bluez
       bluez-tools
+      udiskie
     ];
 
     sessionVariables = {
@@ -98,8 +102,22 @@
       NIXOS_OZONE_WL = "1";
     };
   };
-# Enable Sound (Pipewire)
+ # Enable Sound (Pipewire)
   security.rtkit.enable = true;
+  security.polkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.udisks2.filesystem-mount" ||
+           action.id == "org.freedesktop.udisks2.filesystem-mount-system" ||
+           action.id == "org.freedesktop.udisks2.encrypted-unlock" ||
+           action.id == "org.freedesktop.udisks2.encrypted-unlock-system" ||
+           action.id == "org.freedesktop.udisks2.eject-media" ||
+           action.id == "org.freedesktop.udisks2.power-off-drive") &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
   services.pipewire = {
     enable = true;
     alsa.enable = true;
