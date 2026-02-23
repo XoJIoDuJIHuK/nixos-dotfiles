@@ -1,4 +1,4 @@
-{ config, pkgs, username, hostname, inputs, self, caelestia-shell, ... }:
+{ config, pkgs, pkgs-unstable, username, hostname, inputs, self, caelestia-shell, ... }:
 let
   dotfilesDir = "/home/${username}/.dotfiles";
 in {
@@ -54,7 +54,6 @@ in {
     wlogout  # for logging out screen
     killall  # for waybar
     cliphist # speaks for itself
-    sqlit-tui
     (python3.withPackages (ps: with ps; [
       psycopg2          # ← this is the binary + C binding version in nixpkgs
     ])) # already ships python binary
@@ -84,7 +83,7 @@ in {
     opencode
     thunderbird
     pdftk
-    nodejs_25  # just for npm for nvim plugins. what a waste
+    nodejs_24  # just for npm for nvim plugins. what a waste
     pnpm
     yarn # for frontend projects that require it. also a waste
     mongodb-compass
@@ -133,6 +132,9 @@ in {
     docker-compose
     k3d  # tool to run kubernetes locally
     tilt # tool to manage kubernetes
+
+    # Packages from unstable branch
+    pkgs-unstable.sqlit-tui
   ];
 
   home.pointerCursor = {

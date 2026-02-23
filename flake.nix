@@ -2,9 +2,10 @@
   description = "My custom installation of NixOS";
 
   inputs = {
-    # Use the unstable branch for fresher packages (recommended for desktops)
-    # Or change to "github:nixos/nixpkgs/nixos-24.11" for stability
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Use stable branch by default
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    # Unstable for specific packages
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -40,6 +41,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     zen-browser,
     caelestia-shell,
@@ -49,6 +51,10 @@
     let
       system = "x86_64-linux";
       username = "aleh";
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
@@ -62,7 +68,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home.nix;
 
-            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; hostname = config.networking.hostName; };
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim pkgs-unstable; hostname = config.networking.hostName; };
           })
           sysc-greet.nixosModules.default
         ];
@@ -79,7 +85,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.${username} = import ./home.nix;
 
-            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim; hostname = config.networking.hostName; };
+            home-manager.extraSpecialArgs = { inherit username inputs self caelestia-shell nixvim pkgs-unstable; hostname = config.networking.hostName; };
           })
           sysc-greet.nixosModules.default
         ];
