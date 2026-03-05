@@ -76,7 +76,7 @@ in {
     lazysql
     telegram-desktop
     session-desktop
-    vesktop # discord community wrapper for noise suppression support
+    vesktop # discord community wrapper for noise suppression support (apparently broken)
     yazi
     nautilus
     claude-code
@@ -107,6 +107,7 @@ in {
     # …/.dotfiles  master INS ❯ simple-mtpfs --list-devices
     trashy
     pandoc # for md2pdf: `pandoc document.md --pdf-engine=weasyprint -o document.pdf`
+    krita
 
     bitwarden-desktop
     bitwarden-cli

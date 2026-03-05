@@ -42,6 +42,12 @@ return {
         sorting_strategy = "ascending",
         winblend = 0,
       },
+      pickers = {
+        git_files = {
+          show_untracked = true,
+          no_ignore = true,
+        },
+      },
     },
   },
 
