@@ -177,6 +177,14 @@
     libffi
   ];
 
+  programs.appimage = {  # to be able to run appimages as regular binaries
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run.override {
+      extraPkgs = pkgs: [ pkgs.webkitgtk_4_1 ];
+    };
+  };
+
   services.tailscale.enable = true;  # single `sudo tailscale up` is needed afterwards
 
   services.printing = {     # http://localhost:631/admin
