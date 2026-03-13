@@ -13,6 +13,38 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # Start of extra block
+  boot.extraModprobeConfig = ''
+    options thinkpad_acpi fan_control=1
+  '';
+
+  services.thinkfan = {
+    enable = true;
+
+    # concrete sensors heavily depend on system and are to be
+    # figured out with help of LLM (pass it list of contents of 
+    # /sys/class/hwmon/ folder with symlinks destinations resolved)
+    sensors =[
+      {
+        type = "hwmon";
+        query = "/sys/class/hwmon";
+        name = "coretemp";
+        indices = [ 1 ]; # This maps to temp1_input (CPU Package Temp)
+      }
+    ];
+
+    levels = [
+      [0  0  45]
+      [1 40  50]
+      [3 45  55]
+      [5 50  65]
+      [7 60  85]
+      ["level full-speed" 80 32767]
+    ];
+  };
+  # End of extra block
+
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/7a75d62d-0fde-4a87-894c-346daf41aa79";
       fsType = "ext4";
