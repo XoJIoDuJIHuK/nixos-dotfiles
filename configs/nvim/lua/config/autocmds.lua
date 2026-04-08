@@ -26,6 +26,15 @@ vim.api.nvim_create_autocmd("FileType", {
   desc = "Enable autoformat for Python files",
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+  group = vim.api.nvim_create_augroup("enable_prettier_format", { clear = true }),
+  callback = function()
+    vim.g.autoformat = true
+  end,
+  desc = "Enable autoformat for Prettier-compatible files",
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
   callback = function(args)
