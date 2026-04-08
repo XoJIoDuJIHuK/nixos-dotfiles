@@ -7,6 +7,13 @@
     ./modules/sing-box.nix
   ] ++ lib.optional enableNvidia ./configs/nvidia.nix;
 
+  hardware.enableRedistributableFirmware = true;
+  hardware.cpu.intel.updateMicrocode = true;
+  zramSwap.enable = true;
+  # Ensure /tmp isn't silently filling up your RAM
+  boot.tmp.useTmpfs = false;
+  boot.tmp.cleanOnBoot = true;
+
   # Bootloader (Assumes UEFI)
   boot = {
     loader = {
