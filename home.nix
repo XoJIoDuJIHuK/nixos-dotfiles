@@ -16,6 +16,7 @@ in {
     firefox
     brave
     qutebrowser
+    floorp-bin
     inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
 
     git
@@ -84,6 +85,7 @@ in {
     thunderbird
     pdftk
     nodejs_24  # just for npm for nvim plugins. what a waste
+    deno  # for yt-dlp
     pnpm
     yarn # for frontend projects that require it. also a waste
     mongodb-compass
@@ -108,6 +110,7 @@ in {
     trashy
     pandoc # for md2pdf: `pandoc document.md --pdf-engine=weasyprint -o document.pdf`
     krita
+    prusa-slicer
 
     bitwarden-desktop
     bitwarden-cli
@@ -133,6 +136,7 @@ in {
     docker-compose
     k3d  # tool to run kubernetes locally
     tilt # tool to manage kubernetes
+    dotenv-cli
 
     # Packages from unstable branch
     pkgs-unstable.sqlit-tui
