@@ -76,7 +76,7 @@ let
           rule_set = [ "geosite-ads" "geosite-malware" "geosite-phishing" "geosite-cryptominers" "geoip-malware" "geoip-phishing" ];
           outbound = "block";
         }
-        { domain_suffix = [ ".ru" ".by" ]; outbound = "direct"; }
+        { domain_suffix = [ ".ru" ".by" ".бел" ]; outbound = "direct"; }
         { rule_set = [ "geoip-ru" "geosite-ru" ]; outbound = "direct"; }
       ];
       rule_set = [
