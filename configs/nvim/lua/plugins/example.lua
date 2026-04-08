@@ -60,6 +60,7 @@ return {
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
         vue = { "prettier" },
+        markdown = { "prettier" },
       },
     },
   },
@@ -496,4 +497,40 @@ return {
       require("lsp-file-operations").setup()
     end,
   },
+
+  {
+    -- 1. Ensure the necessary adapters are installed
+    { "nvim-neotest/neotest-python" },
+    { "nvim-neotest/neotest-plenary" },
+    { "nvim-neotest/neotest-vim-test" },
+
+    -- 2. Configure neotest
+    {
+      "nvim-neotest/neotest",
+      opts = {
+        -- LazyVim will merge these adapters with the ones it already has
+        adapters = {
+          ["neotest-python"] = {
+            -- Setting justMyCode to false allows you to step into library/venv code
+            dap = { justMyCode = false },
+            runner = "pytest",
+          },
+          ["neotest-plenary"] = {},
+          ["neotest-vim-test"] = {
+            ignore_file_types = { "python", "vim", "lua" },
+          },
+        },
+      },
+    },
+
+    -- 3. Also configure nvim-dap-python directly 
+    -- This ensures that when you debug a single test via DAP (outside neotest), 
+    -- you still get the 'justMyCode = false' behavior.
+    {
+      "mfussenegger/nvim-dap-python",
+      opts = {
+        justMyCode = false,
+      },
+    },
+  }
 }
