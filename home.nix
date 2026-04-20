@@ -56,7 +56,7 @@ in {
     killall  # for waybar
     cliphist # speaks for itself
     (python3.withPackages (ps: with ps; [
-      psycopg2          # ← this is the binary + C binding version in nixpkgs
+      psycopg2
     ])) # already ships python binary
     postgresql
     wl-clipboard
@@ -76,7 +76,7 @@ in {
     lazygit
     lazysql
     telegram-desktop
-    session-desktop
+    # session-desktop # node js error. unable to update
     vesktop # discord community wrapper for noise suppression support (apparently broken)
     yazi
     nautilus
@@ -90,7 +90,7 @@ in {
     yarn # for frontend projects that require it. also a waste
     mongodb-compass
     prettier
-    nomachine-client
+    # nomachine-client # hash does not match for some reason, unable to update;
     dwarf-fortress
     yt-dlp
     ffmpeg
@@ -119,7 +119,6 @@ in {
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.uk_UA
-    onlyoffice-desktopeditors
     texliveMedium # for formulas in libreoffice. bruh
 
     # fonts
@@ -129,17 +128,11 @@ in {
     nerd-fonts.iosevka
     nerd-fonts.hack
     font-awesome
-    corefonts # fonts for wpsoffice
     inter
 
     docker
     docker-compose
-    k3d  # tool to run kubernetes locally
-    tilt # tool to manage kubernetes
     dotenv-cli
-
-    # Packages from unstable branch
-    pkgs-unstable.sqlit-tui
   ];
 
   home.pointerCursor = {
