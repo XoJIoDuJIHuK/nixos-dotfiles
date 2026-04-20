@@ -338,6 +338,7 @@ context.modules = [
       l = "eza -la -h";
       v = "nvim";
       update = "sudo nixos-rebuild switch --flake /home/aleh/.dotfiles#${hostname}";
+      update-flake = "nix flake update";
       lg = "lazygit";
       ld = "lazydocker";
     };
