@@ -3,9 +3,11 @@
 {
   imports = [
     ./homes/${hostname}/hardware-configuration.nix
-    ./configs/sysc-greet.nix
+    ./modules/sysc-greet.nix
     ./modules/sing-box.nix
-  ] ++ lib.optional enableNvidia ./configs/nvidia.nix;
+    ./modules/printing.nix
+    ./modules/power.nix
+  ] ++ lib.optional enableNvidia ./modules/nvidia.nix;
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
@@ -50,22 +52,6 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-  # Power Management
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = "auto";
-  };
-
-  # UPower - Power management daemon for battery monitoring
-  services.upower = {
-    enable = true;
-  };
-
-  # Power profiles daemon - Power profile switching
-  services.power-profiles-daemon = {
-    enable = true;
-  };
-
   # Networking
   networking = {
     hostName = hostname;
@@ -76,6 +62,7 @@
     firewall = {
       trustedInterfaces = [ "singbox-tun" ];  # it seems this is needed for sing-box to run
       checkReversePath = "loose";
+      allowedTCPPorts = [ 22 ];
     };
   };
 
@@ -109,7 +96,7 @@
       NIXOS_OZONE_WL = "1";
     };
   };
- # Enable Sound (Pipewire)
+
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.polkit.extraConfig = ''
@@ -125,6 +112,8 @@
       }
     });
   '';
+
+  # Enable Sound (Pipewire)
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -188,33 +177,26 @@
     enable = true;
     binfmt = true;
     package = pkgs.appimage-run.override {
-      extraPkgs = pkgs: [ pkgs.webkitgtk_4_1 ];
+      extraPkgs = pkgs: [ 
+        pkgs.webkitgtk_4_1
+      ];
     };
   };
 
   services.tailscale.enable = true;  # single `sudo tailscale up` is needed afterwards
 
-  services.printing = {     # http://localhost:631/admin
-    enable = true;          # CUPS service for document frinting
-    browsed.enable = false; # disable cups-browsed (security vulns in 2024 + prevents buggy auto-queues that point to /dev/null)
-    drivers = with pkgs; [  # just in case of missing drivers issues
-      gutenprint            # very broad support
-      # hplip               # HP printers
-      # brlaser             # some Brother lasers
-    ];
-  };
-  # mDNS / .local discovery (required for most network printers)
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;   # IPv4 .local resolution (avoids IPv6 issues)
-    openFirewall = true;  # allows UDP 5353 for discovery
-  };
+  services.x2goserver.enable = true; # for nomachine server
+
 
   # Do not change this value
   system.stateVersion = "25.05";
 
   virtualisation.docker = {
     enable = true;
+    daemon.settings = {
+      features.cdi = true;
+      data-root = "/nix/var/lib/docker";
+    };
   };
 
   services.openssh = {
@@ -224,6 +206,19 @@
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
       AllowUsers = [ "aleh" ];
+    };
+  };
+
+  # TODO: remove
+  services.open-webui = {
+    enable = true;
+    port = 3000;
+    environment = {
+      # Point it to your vLLM server
+      OPENAI_API_BASE_URL = "http://127.0.0.1:8000/v1";
+      OPENAI_API_KEY = "none";
+      # Optional: Disable local Ollama if only using vLLM
+      ENABLE_OLLAMA = "False";
     };
   };
 }
